@@ -130,7 +130,7 @@ get_corpus <- function(corpus = NULL,
       )
     dracor_list$plays[, (dublicate_columns) := NULL]
   }
-  dracor_list$plays <- nrow(dracor_list$plays)
+  dracor_list$amount_of_plays <- nrow(dracor_list$plays)
   return(dracor_list)
 }
 
