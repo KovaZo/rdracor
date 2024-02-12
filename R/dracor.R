@@ -95,6 +95,7 @@ get_corpus <- function(corpus = NULL,
       skip_absent = TRUE
     )
     dracor_list$plays[, corpus := dracor_list$name]
+    columns_short_order <- columns_short_order[columns_short_order %in% colnames(dracor_list$plays)]
     data.table::setcolorder(dracor_list$plays,
       neworder = columns_short_order
     )
@@ -112,11 +113,10 @@ get_corpus <- function(corpus = NULL,
         by = "id",
         suffixes = c("", "Meta")
       )
+    new_order <- c(columns_short_order, columns_extra_order)
+    new_order <- new_order[new_order %in% colnames(dracor_list$plays)]
     data.table::setcolorder(dracor_list$plays,
-      neworder = c(
-        columns_short_order,
-        columns_extra_order
-      )
+      neworder = new_order
     )
     dublicate_columns <-
       c(
