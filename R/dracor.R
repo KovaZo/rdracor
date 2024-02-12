@@ -142,17 +142,18 @@ get_corpus <- function(corpus = NULL,
 #' @import  data.table
 dracor <- function(dracor_list) {
   dracor_df <- tibble::as_tibble(type.convert(
-    data.table::rbindlist(lapply(dracor_list, `[[`, "dramas"), fill = TRUE),
+    data.table::rbindlist(lapply(dracor_list, `[[`, "plays"), fill = TRUE),
     as.is = TRUE,
     na.strings = c("NA", "-")
   ))
   structure(
     dracor_df,
+    acronym = purrr::map_chr(dracor_list, "acronym"),
     name = purrr::map_chr(dracor_list, "name"),
     title = purrr::map_chr(dracor_list, "title"),
     description = purrr::map_chr(dracor_list, "description"),
     repository = purrr::map_chr(dracor_list, "repository"),
-    plays = purrr::map_int(dracor_list, "plays"),
+    plays = purrr::map_int(dracor_list, "amount_of_plays"),
     class = c("dracor", class(dracor_df))
   )
 }
