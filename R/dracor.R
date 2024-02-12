@@ -79,28 +79,28 @@ get_corpus <- function(corpus = NULL,
         flatten = TRUE,
         as_tibble = FALSE
       )
-    data.table::setDT(dracor_list$dramas)
-    lapply(c("writtenYear", "printYear", "premiereYear"), function(x) {
-      divide_years(dracor_list$dramas, x)
+    data.table::setDT(dracor_list$plays)
+    lapply(c("yearWritten", "yearPrinted", "yearPremiered"), function(x) {
+      divide_years(dracor_list$plays, x)
     })
-    if (!"subtitle" %in% names(dracor_list$dramas)) {
-      dracor_list$dramas[, subtitle := NA_character_]
+    if (!"subtitle" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, subtitle := NA_character_]
     }
     data.table::setnames(
-      dracor_list$dramas,
-      old = c("name", "author.name"),
+      dracor_list$plays,
+      old = c("name", "authors"),
       new = c("playName", "firstAuthorName"),
       skip_absent = TRUE
     )
-    dracor_list$dramas[, corpus := dracor_list$name]
-    data.table::setcolorder(dracor_list$dramas,
+    dracor_list$plays[, corpus := dracor_list$name]
+    data.table::setcolorder(dracor_list$plays,
       neworder = columns_short_order
     )
   }
   if (isTRUE(full_metadata)) {
-    dracor_list$dramas <-
+    dracor_list$plays <-
       merge(
-        dracor_list$dramas,
+        dracor_list$plays,
         dracor_api(request = paste0(
           get_dracor_api_url(),
           "/corpora/",
@@ -110,7 +110,7 @@ get_corpus <- function(corpus = NULL,
         by = "id",
         suffixes = c("", "Meta")
       )
-    data.table::setcolorder(dracor_list$dramas,
+    data.table::setcolorder(dracor_list$plays,
       neworder = c(
         columns_short_order,
         columns_extra_order
@@ -121,14 +121,14 @@ get_corpus <- function(corpus = NULL,
         "name",
         "yearPremiered",
         "yearPrinted",
-        "yearNormalizedMeta",
+        "yearNormalized",
         "yearWritten",
-        "titleMeta",
-        "subtitleMeta"
+        "title",
+        "subtitle"
       )
     dracor_list$dramas[, (dublicate_columns) := NULL]
   }
-  dracor_list$plays <- nrow(dracor_list$dramas)
+  dracor_list$plays <- nrow(dracor_list$plays)
   return(dracor_list)
 }
 
