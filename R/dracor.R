@@ -128,7 +128,7 @@ get_corpus <- function(corpus = NULL,
         "title",
         "subtitle"
       )
-    dracor_list$dramas[, (dublicate_columns) := NULL]
+    dracor_list$plays[, (dublicate_columns) := NULL]
   }
   dracor_list$plays <- nrow(dracor_list$plays)
   return(dracor_list)
