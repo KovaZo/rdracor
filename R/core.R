@@ -5,7 +5,7 @@ form_play_request <-
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0(get_dracor_api_url(), "/corpora/", corpus, "/play/", play)
+      paste0(get_dracor_api_url(), "/corpora/", corpus, "/plays/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
